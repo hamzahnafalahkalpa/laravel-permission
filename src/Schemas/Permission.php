@@ -28,9 +28,7 @@ class Permission extends PackageManagement implements ContractsPermission
 
     public function prepareViewPermissionList(?array $attributes = null): Collection{
         $attributes ??= request()->all();
-
         $permission = $this->permission()->whereNull('parent_id')->with('recursiveChilds')->get();
-
         return $this->permission_model = $permission;
     }
 
@@ -56,7 +54,7 @@ class Permission extends PackageManagement implements ContractsPermission
     }
 
     private function addPermission(PermissionData $permission_dto){
-        $permission = $this->PermissionModel()->firstOrCreate([
+        $permission = $this->usingEntity()->firstOrCreate([
             'parent_id' => $permission_dto->parent_id ?? null,
             'alias'     => $permission_dto->alias
         ], [
@@ -66,12 +64,6 @@ class Permission extends PackageManagement implements ContractsPermission
         $this->fillingProps($permission, $permission_dto->props);
         $permission->save();
         $permission->refresh();
-        // if (isset($permission_dto->props)) {
-        //     foreach ($permission_dto->props as $key => $prop) {
-        //         $permission->{$key} = $prop;
-        //     }
-        //     $permission->save();
-        // }
         if (isset($permission_dto->childs) && count($permission_dto->childs) > 0) {
             foreach ($permission_dto->childs as $child) {
                 $child->parent_id = $permission->getKey();
