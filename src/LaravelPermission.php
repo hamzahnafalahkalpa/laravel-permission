@@ -26,7 +26,7 @@ class LaravelPermission extends BaseLaravelPermission implements ContractsLarave
         return $this->fileScans($path,'permission');
     }
 
-    private function fileScans(string $path,string $type): array{
+    private function fileScans(string $path, ?string $type = 'permission'): array{
         $lists = array_map(function ($data) use ($path,$type){
             $file_name = $data;
             $data      = include_once($path . '/' . $data);
