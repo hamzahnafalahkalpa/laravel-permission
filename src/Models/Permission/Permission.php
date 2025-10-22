@@ -184,7 +184,8 @@ class Permission extends BaseModel
         return $this->hasManyModel('Permission', 'parent_id')
         ->where('type',Type::MENU->value)
         ->when(isset(request()->role_id), function ($query) {
-            $query->checkAccess(request()->role_id);
+            $query->checkAccess(request()->role_id)
+                 ->whereHas('roleHasPermission');
         })->with('recursiveMenus');
     }
 }

@@ -21,7 +21,6 @@ class Menu extends Permission
         return 'permission_id';
     }
 
-
     public function getShowResource(){
         return ViewMenu::class;
     }
