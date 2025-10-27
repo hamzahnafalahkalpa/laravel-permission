@@ -17,14 +17,6 @@ trait PermissionMutator
             if (!$collect->isEmpty()) {
                 $new_permissions = $this->mergeArray($new_permissions, ...$collect);
             }
-            // try {
-            //     if ($permission == 'acl.*'){
-            //         $this->readPermission($permission,$as_object);
-            //     }
-            // } catch (\Throwable $th) {
-            //     dd($permission,'er');
-            //     //throw $th;
-            // }
         });
         return $new_permissions;
     }
