@@ -20,7 +20,7 @@ class Permission extends BaseModel
     protected $keyType = 'string';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'id', 'parent_id', 'name', 'alias', 'type',
+        'id', 'parent_id', 'name', 'alias', 'type','ordering',
         'guard_name', 'visibility'
     ];
 
@@ -186,6 +186,6 @@ class Permission extends BaseModel
         ->when(isset(request()->role_id), function ($query) {
             $query->checkAccess(request()->role_id)
                  ->whereHas('roleHasPermission');
-        })->with('recursiveMenus');
+        })->orderBy('ordering','asc')->with('recursiveMenus');
     }
 }

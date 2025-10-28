@@ -20,7 +20,7 @@ class Menu extends Permission implements ContractsMenu
         if (!isset($attributes['role_id'])) throw new \Exception('Role id not found');
         $menu = $this->menu()->whereHas('roleHasPermission',function($query) use ($attributes){
                                 $query->where('role_id',$attributes['role_id']);
-                            })->get();
+                            })->orderBy('ordering','asc')->get();
         return $this->menu_model = $menu;
     }
 
