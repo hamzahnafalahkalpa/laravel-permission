@@ -33,6 +33,6 @@ class Menu extends Permission implements ContractsMenu
             $query->with('recursiveModules')->asModule();
         })->when(isset(request()->is_permission) && request()->is_permission,function($query){
             $query->asPermission();
-        });
+        })->orderBy('ordering','asc');
     }
 }
