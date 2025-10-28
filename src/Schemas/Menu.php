@@ -12,7 +12,7 @@ class Menu extends Permission implements ContractsMenu
 {
     protected string $__entity = 'Menu';
     public $menu_model;
-    protected mixed $__order_by_created_at = false; //asc, desc, false
+    protected mixed $__order_by_created_at = ['ordering']; //asc, desc, false
 
     public function prepareViewMenuList(): Collection{
         $attributes ??= request()->all();
@@ -20,7 +20,7 @@ class Menu extends Permission implements ContractsMenu
         if (!isset($attributes['role_id'])) throw new \Exception('Role id not found');
         $menu = $this->menu()->whereHas('roleHasPermission',function($query) use ($attributes){
                                 $query->where('role_id',$attributes['role_id']);
-                            })->orderBy('ordering','asc')->get();
+                            })->get();
         return $this->menu_model = $menu;
     }
 

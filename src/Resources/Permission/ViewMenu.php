@@ -22,6 +22,7 @@ class ViewMenu extends ApiResource
       'directory'   => $this->directory,
       'method'      => $this->method,
       'slug'        => $this->slug,
+      'ordering'        => $this->ordering,
       'access'      => true,
       'icon'        => $this->icon,
       'childs'      => $this->relationValidation('recursiveMenus',function(){
