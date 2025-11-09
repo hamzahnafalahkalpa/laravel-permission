@@ -185,7 +185,9 @@ class Permission extends BaseModel
         ->where('type',Type::MENU->value)
         ->when(isset(request()->role_id), function ($query) {
             $query->checkAccess(request()->role_id)
-                 ->whereHas('roleHasPermission');
+                 ->whereHas('roleHasPermission',function($q){
+                    $q->where('role_id',request()->role_id);
+                 });
         })->orderBy('ordering','asc')->with('recursiveMenus');
     }
 }
