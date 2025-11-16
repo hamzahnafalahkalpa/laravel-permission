@@ -3,7 +3,6 @@
 namespace Hanafalah\LaravelPermission\Resources\Permission;
 
 use Hanafalah\LaravelSupport\Resources\ApiResource;
-use Hanafalah\LaravelPermission\Enums\Permission\Type;
 
 class ViewMenu extends ApiResource
 {
