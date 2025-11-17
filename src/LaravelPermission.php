@@ -80,7 +80,6 @@ class LaravelPermission extends BaseLaravelPermission implements ContractsLarave
             if ($this->isPermissionHasChild($permission)){
                 $permission_alias = $permission['alias'];                
                 $permission_alias = Str::replaceLast('.index','',$permission_alias);
-                // $permission_alias = Str::replaceLast('.show','',$permission_alias);
                 foreach ($permission['childs'] as &$child_permission) {
                     $this->recursivePermissions($child_permission, $permission_alias.'.');
                 }
@@ -88,7 +87,6 @@ class LaravelPermission extends BaseLaravelPermission implements ContractsLarave
             $permission['guard_name'] = $this->__for_api ? 'api' : 'web';
         }else{
             $alias = Str::replaceLast('.index','',$alias);
-            // $alias = Str::replaceLast('.show','',$alias);
             $alias = $alias.$permission['alias'];
             $alias = Str::replace('..','.',$alias);
             $permission['alias'] = $alias;
