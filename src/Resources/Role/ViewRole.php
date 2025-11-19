@@ -26,6 +26,7 @@ class ViewRole extends ApiResource
           return $child->toViewApi()->resolve();
         });
       }),
+      'permission_ids' => $this->permission_ids,
       'created_at' => $this->created_at,
       'updated_at' => $this->updated_at
     ];

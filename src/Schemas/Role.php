@@ -33,6 +33,7 @@ class Role extends PackageManagement implements ContractsRole
             $create = [$add];
         }
         $role  = $this->usingEntity()->updateOrCreate(...$create);
+        $role->permission_ids = $role_dto->permission_ids ?? [];
         $this->fillingProps($role,$role_dto->props);
 
         if (isset($role_dto->permission_ids) || isset($role_dto->permissions)) {
