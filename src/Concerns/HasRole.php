@@ -61,13 +61,13 @@ trait HasRole
             ->where('role_id', $role->getKey())->first();
         $model_has_role->current = 1;
         $model_has_role->save();
-        if (in_array('props',$this->getFillable())){
-            $this->prop_role = [
-                'id' => $role->getKey(),
-                'name' => $role->name
-            ];
-            $this->save();
-        }
+        // if (in_array('props',$this->getFillable())){
+        //     $this->prop_role = [
+        //         'id' => $role->getKey(),
+        //         'name' => $role->name
+        //     ];
+        //     $this->saveQuietly();
+        // }
         return $role;
     }
 
