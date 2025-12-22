@@ -36,7 +36,7 @@ return new class extends Migration
 
                 $table->string('model_type', 50)->nullable(false);
                 $table->string('model_id', 36)->nullable(false);
-                $table->unsignedTinyInteger('current')->default(1)->nullable(false);
+                $table->timestamp('current')->nullable(true);
                 $table->timestamps();
 
                 $table->index(['model_type', 'model_id'], 'model_role');

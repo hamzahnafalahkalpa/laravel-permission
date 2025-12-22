@@ -33,7 +33,7 @@ trait HasRole
             $role_foreign
         )->where('model_type', $this->getMorphClass())
             ->select($this->RoleModel()->getTable() . '.*', $this->ModelHasRoleModel()->getTable() . '.current')
-            ->where('current', 1);
+            ->limit(1)->orderBy('current','desc');
     }
 
     public function modelHasRole(){
@@ -43,13 +43,13 @@ trait HasRole
     public function syncRoles(array $roles = []): void{
         $roles = $this->readRoles($roles);
         $this->roles()->detach();
-        $this->addRole($roles,['current' => 0]);
+        $this->addRole($roles);
         $role = end($roles);
         $model_has_role = $this->modelHasRole()
             ->where('model_id', $this->getKey())
             ->where('model_type', $this->getMorphClass())
             ->where('role_id', $role)->first();
-        $model_has_role->current = 1;
+        $model_has_role->current = now();
         $model_has_role->save();
     }
 
@@ -59,22 +59,22 @@ trait HasRole
             ->where('model_id', $this->getKey())
             ->where('model_type', $this->getMorphClass())
             ->where('role_id', $role->getKey())->first();
-        $model_has_role->current = 1;
+        $model_has_role->current = now();
         $model_has_role->save();
-        // if (in_array('props',$this->getFillable())){
-        //     $this->prop_role = [
-        //         'id' => $role->getKey(),
-        //         'name' => $role->name
-        //     ];
-        //     $this->saveQuietly();
-        // }
+        if (in_array('props',$this->getFillable())){
+            $this->prop_role = [
+                'id' => $role->getKey(),
+                'name' => $role->name
+            ];
+            $this->saveQuietly();
+        }
         return $role;
     }
 
     public function addRole(object|array|string $role, ?array $attributes = []): void{
         $create = [
             'model_type' => $this->getMorphClass(),
-            'current'    => $attributes['current'] ?? 1,
+            'current'    => now(),
             'created_at' => now(),
             'updated_at' => now()
         ];
