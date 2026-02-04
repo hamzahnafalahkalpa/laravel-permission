@@ -29,18 +29,18 @@ class Permission extends BaseModel
         'alias' => 'string',
         'type' => 'string',
         'guard_name' => 'string',
-        'visibility' => 'boolean',
+        'visibility' => 'integer',
     ];
 
     protected static function booted(): void
     {
         parent::booted();
         static::addGlobalScope('visible', function ($query) {
-            $query->where('visibility', true);
+            $query->where('visibility', 1);
         });
         static::creating(function ($query) {
             if (!isset($query->guard_name)) $query->guard_name = "api";
-            if (!isset($query->visibility)) $query->visibility = true;
+            if (!isset($query->visibility)) $query->visibility = 1;
             $route = Route::getRoutes()->getByName($query->alias);
             if (isset($route)) {
                 $query->method = $route->methods[0] ?? '';

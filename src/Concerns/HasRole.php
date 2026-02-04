@@ -46,7 +46,7 @@ trait HasRole
         $this->addRole($roles);
         $role = end($roles);
         $model_has_role = $this->modelHasRole()
-            ->where('model_id', $this->getKey())
+            ->where('model_id', (string) $this->getKey())
             ->where('model_type', $this->getMorphClass())
             ->where('role_id', $role)->first();
         $model_has_role->current = now();
@@ -56,7 +56,7 @@ trait HasRole
     public function switchRoleTo(object|string $role): Model{
         $role = $this->readRole($role,true);
         $model_has_role = $this->modelHasRole()
-            ->where('model_id', $this->getKey())
+            ->where('model_id', (string) $this->getKey())
             ->where('model_type', $this->getMorphClass())
             ->where('role_id', $role->getKey())->first();
         $model_has_role->current = now();
@@ -72,13 +72,32 @@ trait HasRole
     }
 
     public function addRole(object|array|string $role, ?array $attributes = []): void{
-        $create = [
-            'model_type' => $this->getMorphClass(),
-            'current'    => now(),
-            'created_at' => now(),
-            'updated_at' => now()
-        ];
-        $this->roles()->attach(is_object($role) || is_array($role) ? $role : $this->readRole($role, true), $create);
+        $roles = is_object($role) || is_array($role) ? $role : $this->readRole($role, true);
+
+        // Handle array of roles - each needs unique ULID
+        if (is_array($roles)) {
+            $attachData = [];
+            foreach ($roles as $roleId) {
+                $attachData[$roleId] = [
+                    'id'         => Str::ulid()->toBase32(),
+                    'model_type' => $this->getMorphClass(),
+                    'current'    => now(),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+            $this->roles()->attach($attachData);
+        } else {
+            // Single role
+            $create = [
+                'id'         => Str::ulid()->toBase32(),
+                'model_type' => $this->getMorphClass(),
+                'current'    => now(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+            $this->roles()->attach($roles, $create);
+        }
     }
 
     public function flushRoles(): void{

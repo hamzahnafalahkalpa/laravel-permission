@@ -37,7 +37,8 @@ class LaravelPermission extends BaseLaravelPermission implements ContractsLarave
                     $this->recursiveRoles($file_name,$data);            
                 }
             } catch (\Throwable $th) {
-                throw new \Exception("Error Processing File : ".$file_name." - ".$th->getMessage()." line ".$th->getLine().': '.$data, 1);
+                dd();
+                throw new \Exception("Error Processing File : ".$file_name." - ".$th->getMessage()." line ".$th->getLine(), 1);
             }
             return $data;
         }, array_filter(scandir($path), function ($data) {

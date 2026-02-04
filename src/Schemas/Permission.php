@@ -58,8 +58,8 @@ class Permission extends PackageManagement implements ContractsPermission
             'parent_id' => $permission_dto->parent_id ?? null,
             'alias'     => $permission_dto->alias
         ], [
-            'name'      => $permission_dto->name,
-            'type'      => $permission_dto->type
+            'name'       => $permission_dto->name,
+            'type'       => $permission_dto->type,
         ]);
         $permission_dto->props['is_restricted'] ??= false;
         $this->fillingProps($permission, $permission_dto->props);

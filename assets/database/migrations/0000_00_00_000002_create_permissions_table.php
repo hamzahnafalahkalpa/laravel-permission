@@ -30,7 +30,7 @@ return new class extends Migration
                 $table->string('name', 200)->nullable(false);
                 $table->string('alias', 255)->nullable(false);
                 $table->enum('type', array_column(Type::cases(), 'value'))->default(Type::PERMISSION->value);
-                $table->boolean('visibility')->default(1);
+                $table->unsignedSmallInteger('visibility')->default(1);
                 $table->unsignedMediumInteger('ordering')->default(1)->nullable(false);
                 $table->string('guard_name', 50)->nullable()->index();
                 $table->json('props')->nullable();

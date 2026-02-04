@@ -13,7 +13,7 @@ class Menu extends Permission
         'alias' => 'string',
         'type' => 'string',
         'guard_name' => 'string',
-        'visibility' => 'boolean'
+        'visibility' => 'integer'
     ];
 
     public function getForeignKey()
